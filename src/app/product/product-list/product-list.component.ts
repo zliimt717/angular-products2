@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ProductCategory } from 'src/app/product-categories/product-category';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 
@@ -11,7 +12,7 @@ import { ProductService } from '../product.service';
 export class ProductListComponent implements OnInit, OnDestroy{
   pageTitle:string='Product List';
   errorMessage='';
-  //categories:ProductCategory[]=[];
+  categories:ProductCategory[]=[];
 
   products:Product[]=[];
   sub!:Subscription;
@@ -35,8 +36,8 @@ export class ProductListComponent implements OnInit, OnDestroy{
     console.log('Not yet implement');
   }
 
-  // onSelected(categoryId:string):void{
-  //   console.log('Not yet implement');
-  // }
+   onSelected(categoryId:string):void{
+     console.log('Not yet implement');
+  }
 
 }
