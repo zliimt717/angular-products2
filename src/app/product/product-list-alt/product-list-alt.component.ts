@@ -4,7 +4,7 @@ import { Product } from '../product';
 import { ProductService } from '../product.service';
 
 @Component({
-  selector: 'app-product-list-alt',
+  selector: 'pm-product-list',
   templateUrl: './product-list-alt.component.html',
   styles: [
   ]
