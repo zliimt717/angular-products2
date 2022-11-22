@@ -4,7 +4,7 @@ import { Product } from '../product';
 import { ProductService } from '../product.service';
 
 @Component({
-  selector: 'pm-product-detail',
+  selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
 })
 export class ProductDetailComponent{
