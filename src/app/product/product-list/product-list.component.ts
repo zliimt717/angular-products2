@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { catchError, EMPTY, Subscription } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, EMPTY, map, startWith, Subject, Subscription } from 'rxjs';
 import { ProductCategory } from 'src/app/product-categories/product-category';
+import { ProductCategoryService } from 'src/app/product-categories/product-category.service';
 import { Product } from '../product';
 import { ProductService } from '../product.service';
 
@@ -12,9 +13,29 @@ import { ProductService } from '../product.service';
 export class ProductListComponent {
   pageTitle:string='Product List';
   errorMessage='';
-  categories:ProductCategory[]=[];
+  
+  private categorySelectedSubject=new BehaviorSubject<number>(0);
+  categorySelectedAction$=this.categorySelectedSubject.asObservable();
 
-  products$=this.productService.productsWithCategory$
+  products$=combineLatest([
+    this.productService.productsWithCategory$,
+    this.categorySelectedAction$
+    // .pipe(
+    //   startWith(0)
+    // )
+  ]) 
+  .pipe(
+    map(([products,selectedCategoryId])=>
+    products.filter(product=>
+      selectedCategoryId?product.categoryId===selectedCategoryId:true
+      )),
+      catchError(err=>{
+        this.errorMessage=err;
+        return EMPTY;
+      })
+  );
+
+  categories$=this.productCategoryService.productCategories$
   .pipe(
     catchError(err=>{
       this.errorMessage=err;
@@ -22,14 +43,16 @@ export class ProductListComponent {
     })
   );
  
-
-  constructor(private productService: ProductService) { }
-  onAdd(): void{
+  constructor(private productService: ProductService,
+    private productCategoryService:ProductCategoryService) { }
+  
+  
+  onAdd(): void{ 
     console.log('Not yet implement');
   }
 
    onSelected(categoryId:string):void{
-     console.log('Not yet implement');
+     this.categorySelectedSubject.next(+categoryId);
   }
 
 }
