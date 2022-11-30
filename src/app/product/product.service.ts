@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, combineLatest, forkJoin, map, merge, Observable, scan, shareReplay, Subject, tap, throwError } from 'rxjs';
 import { ProductCategoryService } from '../product-categories/product-category.service';
+import { SupplierService } from '../suppliers/supplier.service';
 import { Product } from './product';
 
 @Injectable({
@@ -75,7 +76,8 @@ export class ProductService {
 
 
   constructor(private http:HttpClient,
-    private productCategoryService: ProductCategoryService) { }
+    private productCategoryService: ProductCategoryService,
+    private supplierService: SupplierService) { }
 
     addProduct(newProduct?:Product){
       newProduct=newProduct||this.fakeProuduct();
